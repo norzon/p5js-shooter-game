@@ -1,17 +1,16 @@
-var weaponList = [
-    {
-        cooldown:1,
-        power: 1,
-        width: 20,
-        height: 10
-    }
-];
+var weaponList = [{
+    cooldown: 10,
+    power: 1,
+    width: 20,
+    height: 10
+}];
 
 class Weapon {
-    constructor(w=0) {
+    constructor(w = 0) {
         this.current = weaponList[w];
-        this.x = -5;
-        this.y = -12.5;
+        this.x = -this.current.height / 2;
+        this.y = -this.current.width / 1.5;
+        this.cd = 0;
     }
 
     draw() {

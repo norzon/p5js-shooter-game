@@ -8,6 +8,7 @@ class Player {
         this.ease = 0.05;
         this.angle = -PI / 2;
         this.weapon = weapon;
+        this.health = 5;
     }
 
 
@@ -20,7 +21,13 @@ class Player {
         fill(255);
         ellipse(0, 0, this.size, this.size);
         pop();
-        this.screen();
+        push();
+        noStroke();
+        fill(0);
+        textAlign(CENTER, CENTER);
+        text(this.health, this.x, this.y);
+        pop();
+        //this.screen();
     }
 
 
@@ -29,7 +36,7 @@ class Player {
         noFill();
         rectMode(CENTER);
         stroke(255);
-        rect(this.x, this.y, width / 2, height / 2);
+        ellipse(this.x, this.y, width / 2, height / 2);
         pop();
     }
 
@@ -51,16 +58,19 @@ class Player {
 
 
     shoot() {
-        var x = Math.cos(this.angle);
-        var y = Math.sin(this.angle);
-        // push();
-        // rotate(this.angle);
-        var startX = this.x + this.weapon.x * x;
-        var startY = this.y + this.weapon.y * y;
-        // console.log(this);
-        // console.log(startX);
-        // console.log(startY);
-        bullets.push(new Bullet(startX, startY, x, y));
-        // pop();
+        if (this.weapon.cd <= 0) {
+            var x = Math.cos(this.angle);
+            var y = Math.sin(this.angle);
+            // push();
+            // rotate(this.angle);
+            var startX = this.x + this.weapon.x * x;
+            var startY = this.y + this.weapon.y * y;
+            // console.log(this);
+            // console.log(startX);
+            // console.log(startY);
+            bullets.push(new Bullet(startX, startY, x, y));
+            this.weapon.cd = this.weapon.current.cooldown;
+            // pop();
+        }
     }
 }

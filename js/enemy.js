@@ -14,7 +14,6 @@ class Enemy {
         var move = movement(this.angle, this.speed);
         this.x += move.x;
         this.y += move.y;
-
         this.draw();
     }
 
@@ -24,6 +23,10 @@ class Enemy {
         fill(color("brown"));
         stroke(255);
         ellipse(this.x, this.y, this.size);
+        noStroke();
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(this.health, this.x, this.y);
         pop();
     }
 
@@ -31,8 +34,16 @@ class Enemy {
         for (var i = bullets.length - 1; i >= 0; i--) {
             if (dist(bullets[i].x, bullets[i].y, this.x, this.y) <= (this.size + bullets[i].size) / 2) {
                 this.health -= bullets[i].damage;
+                this.knockBack();
                 bullets.splice(i, 1);
             }
         }
+    }
+
+    knockBack() {
+        var angle = getAngle(player.x, player.y, this.x, this.y);
+        var move = movement(angle, this.speed * 10);
+        this.x += move.x;
+        this.y += move.y;
     }
 }
