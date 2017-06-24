@@ -4,14 +4,17 @@
 var player;
 var weapon;
 var bullets = [];
+var enemies = [];
 
 
 /*----------------
     Basic setup */
 function setup() {
-    createCanvas(600,400);
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    createCanvas(w, h);
     weapon = new Weapon();
-    player = new Player(width/2, height/2);
+    player = new Player(width / 2, height / 2);
 }
 
 
@@ -19,21 +22,39 @@ function setup() {
 /*----------------
     Game loop   */
 function draw() {
-    background(51);
-    player.draw();
-    if (mouseIsPressed) {
-        if(!outOfBounds(mouseX, mouseY))
-            player.move();
-    }
 
-    for (var i = bullets.length-1; i >=0 ; i--) {
+    //----------------  Background  ---------------
+    background(51);
+    //---------------------------------------------
+
+
+    //-----------------  Player  ------------------
+    player.draw();
+    if (mouseIsPressed && !outOfBounds(mouseX, mouseY))
+        player.move();
+    //---------------------------------------------
+
+
+    //-----------------  Bullets  -----------------
+    for (var i = bullets.length - 1; i >= 0; i--) {
         bullets[i].move();
-        var x = bullets[i].x
-        var y = bullets[i].y;
-        if(outOfBounds(x,y)){
+        if (outOfBounds(bullets[i].x, bullets[i].y)) {
             bullets.splice(i, 1);
         }
     }
+    //---------------------------------------------
+
+
+
+    //-----------------  Enemies  -----------------
+    for (var i = enemies.length - 1; i >= 0; i--) {
+        enemies[i].move();
+        enemies[i].hit();
+        if (enemies[i].health <= 0) {
+            enemies.splice(i, 1);
+        }
+    }
+    //---------------------------------------------
 }
 
 
