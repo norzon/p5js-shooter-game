@@ -13,6 +13,7 @@ class Player {
 
     draw() {
         push();
+        this.angle = Math.atan2(mouseY-this.y, mouseX-this.x);
         translate(this.x,this.y);
         rotate(this.angle);
         this.weapon.draw();
@@ -39,13 +40,9 @@ class Player {
 
 
     move() {
-        var target = createVector(mouseX-this.x,mouseY-this.y);
-        this.angle = Math.atan2(target.y, target.x);
+        var target = createVector(mouseX-this.x, mouseY-this.y);
         target.x = map(target.x,0,width,0,this.speed);
-        //target.x = target.x*this.ease;
         target.y = map(target.y,0,height,0,this.speed);
-        //target.y = target.y*this.ease;
-        //console.log(target);
         this.x += target.x;
         this.y += target.y;
     }
@@ -53,8 +50,16 @@ class Player {
 
 
     shoot() {
-        var x2 = this.x + this.weapon.x + Math.cos(this.angle) * 5;
-        var y2 = this.y + this.weapon.y - Math.sin(this.angle) * 5;
-        
+        var x = Math.cos(this.angle);
+        var y = Math.sin(this.angle);
+        push();
+        rotate(this.angle);
+        var startX = this.x + this.weapon.x*x;
+        var startY = this.y + this.weapon.y*y;
+        console.log(this);
+        console.log(startX);
+        console.log(startY);
+        bullets.push( new Bullet(startX, startY, x, y) );
+        pop();
     }
 }

@@ -3,6 +3,7 @@
 
 var player;
 var weapon;
+var bullets = [];
 
 
 /*----------------
@@ -21,8 +22,17 @@ function draw() {
     background(51);
     player.draw();
     if (mouseIsPressed) {
-        if(mouseInCanvas())
+        if(!outOfBounds(mouseX, mouseY))
             player.move();
+    }
+
+    for (var i = bullets.length-1; i >=0 ; i--) {
+        bullets[i].move();
+        var x = bullets[i].x
+        var y = bullets[i].y;
+        if(outOfBounds(x,y)){
+            bullets.splice(i, 1);
+        }
     }
 }
 
