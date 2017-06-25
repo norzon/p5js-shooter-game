@@ -8,13 +8,9 @@ var enemies = [];
 var currentWave = {};
 var waveNumber = 0;
 var enemyCooldown = 0;
-var playing=false;
-var menu = {
-    x: window.innerWidth/2,
-    y: window.innerHeight/2,
-    width: 150,
-    height: 50
-};
+var playing = false;
+var score = 0;
+var ranking = [];
 
 
 
@@ -27,7 +23,8 @@ function setup() {
     weapon = new Weapon();
     player = new Player(width / 2, height / 2);
 
-    currentWave = waves[waveNumber];
+    waves = JSON.stringify(waves);
+    currentWave = JSON.parse(waves)[waveNumber];
 }
 
 
@@ -54,10 +51,10 @@ function draw() {
     //-----------------  Player  ------------------
     player.draw();
     player.weapon.cd--;
-    if (mouseIsPressed){
-        if(!outOfBounds(mouseX, mouseY))
+    if (mouseIsPressed) {
+        if (!outOfBounds(mouseX, mouseY))
             player.move();
-        if(dist(mouseX,mouseY,width/2,height/2)<=75 && !playing){
+        if (dist(mouseX, mouseY, width / 2, height / 2) <= 75 && !playing) {
             enemyCooldown = 0;
             playing = true;
         }
@@ -71,15 +68,21 @@ function draw() {
     for (var i = enemies.length - 1; i >= 0; i--) {
         enemies[i].move();
         enemies[i].hit();
+        if (dist(enemies[i].x, enemies[i].y, player.x, player.y) <= (enemies[i].size + player.size) / 2) {
+            if (player.hit(enemies[i])) {
+                break;
+            }
+        }
         if (enemies[i].health <= 0) {
+            score += enemies[i].worth;
             enemies.splice(i, 1);
         }
     }
-    if(playing){
+    if (playing) {
         spawnWave();
     }
-    if(enemies.length + currentWave.total <= 0) {
-        currentWave = waves[++waveNumber];
+    if (enemies.length + currentWave.total <= 0 && playing) {
+        currentWave = JSON.parse(waves)[++waveNumber];
         playing = false;
     }
     //---------------------------------------------

@@ -6,6 +6,7 @@ class Enemy {
         this.health = h;
         this.angle;
         this.size = 20;
+        this.worth = this.speed * this.health;
     }
 
 

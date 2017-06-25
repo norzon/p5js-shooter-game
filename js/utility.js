@@ -76,10 +76,10 @@ function spawnWave() {
             if (currentWave.subWave[i].total > 0) {
                 spawnEnemy(currentWave.subWave[i].health, currentWave.subWave[i].speed, currentWave.subWave[i].x, currentWave.subWave[i].y);
                 enemyCooldown = currentWave.subWave[i].cooldown;
-                if (--currentWave.subWave[i].total <= 0 && currentWave.waveTimer != undefined)
-                    enemyCooldown = currentWave.waveTimer;
+                if (--currentWave.subWave[i].total <= 0 && currentWave.subTimer != undefined)
+                    enemyCooldown = currentWave.subTimer;
                 if (--currentWave.total <= 0) {
-                    enemyCooldown=Infinity;
+                    enemyCooldown = Infinity;
                 }
                 break;
             }
@@ -96,15 +96,21 @@ function displayText() {
 
     // Wave text
     push();
-    t = "Wave " + (waveNumber + 1) + ": " + (enemies.length + currentWave.total);
-    translate(10, 20);
+    if (currentWave.total == Infinity) {
+        t = "Wave " + (waveNumber + 1) + ": " + currentWave.total;
+    } else {
+        t = "Wave " + (waveNumber + 1) + ": " + (enemies.length + currentWave.total);
+    }
     textSize(20);
     textAlign(LEFT, CENTER);
     fill(35);
     noStroke();
-    rect(-5, -15, textWidth(t) + 10, 30);
+    rect(5, 5, textWidth(t) + 10, 30);
     fill(255);
-    text(t, 0, 0);
+    text(t, 10, 20);
+    t = "Score: " + score;
+    //console.log(width - 10 - textWidth(t));
+    text(t, width - 10 - textWidth(t), 20);
     pop();
 
 
@@ -117,9 +123,22 @@ function displayText() {
         ellipse(0, 0, 150);
         c = color("rgba(0, 0, 0, 0.9)")
         fill(c);
-        triangle(-25,-50,-25,50,50,0);
+        triangle(-25, -50, -25, 50, 50, 0);
 
         //triangle(-menu.width/3, menu.height / 3, -menu.width/3, -menu.height / 3, -menu.width/3 + menu.height / 3, 0);
         pop();
     }
+}
+
+
+
+function gameover() {
+    playing = false;
+    waveNumber = 0;
+    currentWave = JSON.parse(waves)[waveNumber];
+    weapon = new Weapon();
+    player = new Player(width / 2, height / 2);
+    enemies = [];
+    ranking.push(score);
+    score = 0;
 }

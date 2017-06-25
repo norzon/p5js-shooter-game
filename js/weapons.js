@@ -1,5 +1,5 @@
 var weaponList = [{
-    cooldown: 10,
+    cooldown: 15,
     power: 1,
     width: 20,
     height: 10

@@ -9,6 +9,8 @@ class Player {
         this.angle = -PI / 2;
         this.weapon = weapon;
         this.health = 5;
+        this.invulnerable = 0;
+        this.invTime = 0.5;
     }
 
 
@@ -18,7 +20,12 @@ class Player {
         translate(this.x, this.y);
         rotate(this.angle);
         this.weapon.draw();
-        fill(255);
+        if (this.invulnerable > 0) {
+            fill(color("rgba(255,255,255,0.6)"));
+            this.invulnerable--;
+        } else {
+            fill(255);
+        }
         ellipse(0, 0, this.size, this.size);
         pop();
         push();
@@ -72,5 +79,28 @@ class Player {
             this.weapon.cd = this.weapon.current.cooldown;
             // pop();
         }
+    }
+
+
+
+    hit(enemy) {
+        if (this.invulnerable <= 0) {
+            if (--this.health <= 0) {
+                gameover();
+                return true;
+            } else {
+                this.invulnerable = frameRate() * this.invTime;
+                this.knockBack(enemy.x, enemy.y, enemy.speed);
+            }
+        }
+        return false;
+    }
+
+
+    knockBack(x, y, speed = this.speed) {
+        var angle = getAngle(x, y, this.x, this.y);
+        var move = movement(angle, speed * 20);
+        this.x += move.x;
+        this.y += move.y;
     }
 }
