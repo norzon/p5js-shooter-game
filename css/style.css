@@ -1,0 +1,96 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#menu {
+    position: fixed;
+    width: 200px;
+    background-color: black;
+    left: calc(50vw - 125px);
+    top: calc(50vh - 150px);
+    padding: 25px;
+    padding-top: 90px;
+    font-size: 20px;
+    opacity: 0.5;
+    color: white;
+    cursor: default;
+    user-select: none;
+}
+
+#play {
+    display: flex;
+    justify-content: center;
+    top: -75px;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+#play>*:last-child {
+    font-size: 60px;
+    margin: 40px;
+    margin-left: 15px;
+    background-color: white;
+    display: none;
+}
+
+#playCircle {
+    width: 150px;
+    height: 150px;
+    background: white;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#playTriangle {
+    height: 0;
+    width: 0;
+    border: 50px solid transparent;
+    border-left: 75px solid black;
+    border-right: 0;
+    margin: 25px;
+    margin-left: 50px;
+}
+
+.stats {
+    padding-top: 25px;
+}
+
+.column-left {
+    text-align: left;
+    width: 70%;
+    padding: 0 10px;
+}
+
+.column-right {
+    text-align: center;
+    width: 30%;
+    padding: 0 10px;
+}
+
+.row {
+    display: flex;
+}
+
+.left {
+    width: 65%;
+    text-align: right;
+}
+
+.middle {
+    width: 20%;
+    text-align: center;
+}
+
+.right {
+    width10%;
+    width: 15%;
+    text-align: center;
+    font-size: 30px;
+    line-height: 20px;
+    font-weight: bold;
+    color: rgb(224, 38, 24);
+    cursor: pointer;
+}

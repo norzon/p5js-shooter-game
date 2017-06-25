@@ -3,8 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>Shooter</title>
+        <script type="text/javascript" src="libs/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="libs/p5.js"></script>
         <script type="text/javascript" src="js/master.js"></script>
+        <script type="text/javascript" src="js/dom.js"></script>
         <script type="text/javascript" src="js/waves.js"></script>
         <script type="text/javascript" src="js/player.js"></script>
         <script type="text/javascript" src="js/utility.js"></script>
@@ -12,11 +14,67 @@
         <script type="text/javascript" src="js/bullet.js"></script>
         <script type="text/javascript" src="js/enemy.js"></script>
 
-        <style>
-            body { margin: 0; padding: 0; overflow: hidden; }
-        </style>
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
 
+        <div id="menu">
+            <div id="play">
+                <div id="playCircle">
+                    <div id="playTriangle"></div>
+                </div>
+                <div>Play</div>
+            </div>
+            <div class="character">
+                <div class="row">
+                    <div class="column-left">Level</div>
+                    <div class="column-right" id="level">0</div>
+                </div>
+                <div class="row">
+                    <div class="column-left">XP</div>
+                    <div class="column-right" id="xp">0</div>
+                </div>
+                <div class="row">
+                    <div class="column-left">Skill points</div>
+                    <div class="column-right" id="skillPoints">0</div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="row">
+                    <div class="left">Firerate</div>
+                    <div class="middle">0</div>
+                    <div class="right" id="cooldown">+</div>
+                </div>
+                <div class="row">
+                    <div class="left">Speed</div>
+                    <div class="middle">0</div>
+                    <div class="right" id="speed">+</div>
+                </div>
+                <div class="row">
+                    <div class="left">Health</div>
+                    <div class="middle">0</div>
+                    <div class="right" id="health">+</div>
+                </div>
+                <div class="row">
+                    <div class="left">Invulnerability</div>
+                    <div class="middle">0</div>
+                    <div class="right" id="invTime">+</div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <div class="row">
+            <div class="column left"></div>
+            <div class="column right"></div>
+        </div>
+
+        <div class="row">
+            <div class="left"></div>
+            <div class="middle"></div>
+            <div class="right">+</div>
+        </div>
+        -->
     </body>
 </html>

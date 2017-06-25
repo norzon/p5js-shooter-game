@@ -3,14 +3,20 @@ class Player {
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
-        this.speed = 5;
+        this.speed = 2;
+        this.speedBonus = 0;
         this.size = 20;
-        this.ease = 0.05;
         this.angle = -PI / 2;
         this.weapon = weapon;
         this.health = 5;
+        this.healthBonus = 0;
         this.invulnerable = 0;
         this.invTime = 0.5;
+        this.invTimeBonus = 0;
+        this.xp = 0;
+        this.level = 0;
+        this.skillPoints = 0;
+        this.weapCd = 0;
     }
 
 
@@ -54,8 +60,8 @@ class Player {
 
 
     move() {
-        var move = movement(this.angle, this.speed);
-        if (dist(mouseX, mouseY, this.x, this.y) < this.speed) {
+        var move = movement(this.angle, this.speed + this.speedBonus);
+        if (dist(mouseX, mouseY, this.x, this.y) < this.speed + this.speedBonus) {
             move.x = move.y = 0;
         }
         this.x += move.x;
@@ -68,16 +74,10 @@ class Player {
         if (this.weapon.cd <= 0) {
             var x = Math.cos(this.angle);
             var y = Math.sin(this.angle);
-            // push();
-            // rotate(this.angle);
             var startX = this.x + this.weapon.x * x;
             var startY = this.y + this.weapon.y * y;
-            // console.log(this);
-            // console.log(startX);
-            // console.log(startY);
             bullets.push(new Bullet(startX, startY, x, y));
-            this.weapon.cd = this.weapon.current.cooldown;
-            // pop();
+            this.weapon.cd = this.weapon.current.cooldown - this.weapCd;
         }
     }
 
@@ -89,7 +89,7 @@ class Player {
                 gameover();
                 return true;
             } else {
-                this.invulnerable = frameRate() * this.invTime;
+                this.invulnerable = frameRate() * (this.invTime + this.invTimeBonus);
                 this.knockBack(enemy.x, enemy.y, enemy.speed);
             }
         }
@@ -102,5 +102,16 @@ class Player {
         var move = movement(angle, speed * 20);
         this.x += move.x;
         this.y += move.y;
+    }
+
+
+
+    addXp(xp = 1) {
+        this.xp += xp;
+        if (this.xp >= levels()) {
+            this.xp -= levels();
+            this.level++;
+            this.skillPoints++;
+        }
     }
 }

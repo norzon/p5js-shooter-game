@@ -37,6 +37,7 @@ class Enemy {
                 this.health -= bullets[i].damage;
                 this.knockBack();
                 bullets.splice(i, 1);
+                player.addXp();
             }
         }
     }

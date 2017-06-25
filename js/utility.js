@@ -1,11 +1,9 @@
 function keyPressed() {
-    // if spacebar shoot
-    if (keyCode === 32) {
-        player.shoot();
-    } else if (keyCode === 90) {
-        spawnEnemy();
+    // if "z" pause
+    if (keyCode === 90) {
+        playButton();
     } else {
-        console.log(keyCode);
+        //console.log(keyCode);
     }
 }
 
@@ -80,6 +78,7 @@ function spawnWave() {
                     enemyCooldown = currentWave.subTimer;
                 if (--currentWave.total <= 0) {
                     enemyCooldown = Infinity;
+                    endOfWave();
                 }
                 break;
             }
@@ -87,6 +86,11 @@ function spawnWave() {
     } else {
         enemyCooldown--;
     }
+}
+
+
+function endOfWave() {
+    player.addXp(player.level * 2);
 }
 
 
@@ -112,28 +116,22 @@ function displayText() {
     //console.log(width - 10 - textWidth(t));
     text(t, width - 10 - textWidth(t), 20);
     pop();
+}
 
 
-    // Main menu
-    if (!playing) {
-        push();
-        var c = color("rgba(255, 255, 255, 0.9)");
-        translate(width / 2, height / 2);
-        fill(c);
-        ellipse(0, 0, 150);
-        c = color("rgba(0, 0, 0, 0.9)")
-        fill(c);
-        triangle(-25, -50, -25, 50, 50, 0);
-
-        //triangle(-menu.width/3, menu.height / 3, -menu.width/3, -menu.height / 3, -menu.width/3 + menu.height / 3, 0);
-        pop();
+function playButton() {
+    $("#menu").toggle();
+    playing = !playing;
+    updateMenu();
+    if (playing) {
+        enemyCooldown = 0;
     }
 }
 
 
 
 function gameover() {
-    playing = false;
+    playButton();
     waveNumber = 0;
     currentWave = JSON.parse(waves)[waveNumber];
     weapon = new Weapon();
@@ -141,4 +139,25 @@ function gameover() {
     enemies = [];
     ranking.push(score);
     score = 0;
+    updateMenu();
+}
+
+
+
+function levels() {
+    return player.level * 5 + 5;
+}
+
+
+function shakeView() {
+    if (shakeIt > 0) {
+        shakeIt = -5;
+    } else {
+        shakeIt = 5;
+    }
+    translate(shakeIt);
+}
+
+function unShake() {
+    translate(0, 0);
 }
